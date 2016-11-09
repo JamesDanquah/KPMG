@@ -35,17 +35,7 @@ namespace TestProject.Controllers
             //save file
             file.SaveAs(fullPath);
 
-            InitializeService.Settings.Services.Business.TransactionService.CsvUpload(fullPath);
-
-            //update coursenotefile table here
-            //client.UpdateCourseNoteFile(new CourseNoteFile
-            //{
-            //    FileUrl = fullPath,
-            //    Name = fileName,
-            //    CourseCode = fileData.CourseCode,
-            //    CourseNoteWeek = fileData.CourseNoteWeek,
-            //    IsEnabled = true
-            //});
+            InitializeService.Settings.Services.Business.TransactionService.CsvUpload(fullPath);                        
 
             return RedirectToAction("Index", "Transaction");
         }

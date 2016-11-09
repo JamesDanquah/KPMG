@@ -58,25 +58,6 @@ namespace TestProject.Business
                                     dataTable.Rows[dataTable.Rows.Count - 1][i] = IsNumber(cell.Replace("\\", "").Trim()) ? cell : "0"; 
                                     break;
                             }
-                            //if (i == 0)
-                            //{
-
-                            //    dataTable.Rows[dataTable.Rows.Count - 1][i] = cell;
-                            //}
-                            //if (i == 1)
-                            //{
-
-                            //    dataTable.Rows[dataTable.Rows.Count - 1][i] = cell;
-                            //}
-                            //if (i == 2 && IsCurrencyValid(cell))                            {
-
-                            //    dataTable.Rows[dataTable.Rows.Count - 1][i] = cell;
-                            //}
-                            //if (i == 3 && IsNumber(cell))
-                            //{     
-                            
-                            //    dataTable.Rows[dataTable.Rows.Count - 1][i] = cell;
-                            //}
                             i++;
                         }
                     }

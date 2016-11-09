@@ -1,0 +1,40 @@
+﻿@model TestProject.Models.Transaction.TransactionViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div id="breadcrumb" class="col-md-12">
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="#">File Upload</a>
+            </li>
+        </ol>
+    </div>
+</div>
+
+@using (Html.BeginForm("UploadFile", "Transaction", FormMethod.Post,
+                                            new { enctype = "multipart/form-data" }))
+{
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <fieldset>
+                <legend>Upload file</legend>
+                <div class="editor-field">
+                    @Html.TextBox("file", "", new { type = "file" })
+                </div>
+                <br />
+                <div class="editor-field">
+                    <a href="/" class="btn btn-default">Back</a>
+                    <input type="submit" value="Upload" class="btn btn-primary" />
+                </div>
+            </fieldset>
+        </div>
+    </div>
+}
+

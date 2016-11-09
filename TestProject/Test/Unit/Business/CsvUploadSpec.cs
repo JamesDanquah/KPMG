@@ -16,10 +16,11 @@ namespace TestProject.Test.Unit.Business
         protected Mock<ITransactionRepository> MockTransactionRepository = new Mock<ITransactionRepository>();
         protected string Actual;
         protected string Errors;
-        protected string dataTable;
+        protected string _DataTable;
         protected TestProject.Business.TransactionService TransactionService;
         protected override void EstablishSupportingContext()
         {
+            _DataTable = "CH1 1AB"+","+"25"+","+"USD"+","+"16.00";
             Settings settings = new Settings
             {
                 Services = new Entities.Services
@@ -38,7 +39,7 @@ namespace TestProject.Test.Unit.Business
         }
         public override void Observe()
         {
-            TransactionService.CsvUpload(dataTable);
+            TransactionService.CsvUpload(_DataTable);
         }
     }
     //Test various scenarios here

@@ -12,6 +12,7 @@ namespace TestProject.Test.Unit.Business
 {
     public class CsvUploadSpec: BddSpecification
     {
+        //set up the test
         protected Mock<ITransactionRepository> MockTransactionRepository = new Mock<ITransactionRepository>();
         protected string Actual;
         protected string Errors;
@@ -40,6 +41,7 @@ namespace TestProject.Test.Unit.Business
             TransactionService.CsvUpload(dataTable);
         }
     }
+    //Test various scenarios here
     public class Test1 : CsvUploadSpec
     {
         [Observation]

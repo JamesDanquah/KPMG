@@ -4,18 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<div class="row">
-    <div id="breadcrumb" class="col-md-12">
-        <ol class="breadcrumb">
-            <li>
-                <a href="/">Home</a>
-            </li>
-            <li>
-                <a href="#">File Upload</a>
-            </li>
-        </ol>
-    </div>
-</div>
+<h2>File Upload</h2>
 
 @using (Html.BeginForm("UploadFile", "Transaction", FormMethod.Post,
                                             new { enctype = "multipart/form-data" }))

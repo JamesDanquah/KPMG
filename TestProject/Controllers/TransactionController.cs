@@ -22,22 +22,76 @@ namespace TestProject.Controllers
 
         public ActionResult UploadFile(HttpPostedFileBase file)
         {
+            //do nothing and return to page if no file submitted
             if (file == null)
-            {                
+            {
                 return RedirectToAction("Index", "Transaction");
             }
 
             string fileName = Path.GetFileName(file.FileName);
             string dirPath = Server.MapPath(@"~/UploadFiles");
             string fullPath = Path.Combine(dirPath, fileName);
-            
+
             bool grant = GrantFullAccess(dirPath);
             //save file
             file.SaveAs(fullPath);
 
-            InitializeService.Settings.Services.Business.TransactionService.CsvUpload(fullPath);                        
+            InitializeService.Settings.Services.Business.TransactionService.CsvUpload(fullPath);
 
-            return RedirectToAction("Index", "Transaction");
+            return RedirectToAction("TransactionLog", "Transaction");
+        }
+
+        public ActionResult TransactionLog()
+        {
+            var model = new TransactionViewModel
+            {
+                Transactions = InitializeService.Settings.Services.Business.TransactionService.TransactionGetAll()
+            };
+            return View(model);
+        }
+
+        public ActionResult TransactionDetail(string id)
+        {
+            var model = new TransactionDetailViewModel();
+            if (id != "-1")
+            {
+                var transaction = InitializeService.Settings.Services.Business.TransactionService.TransactionGetById(id);
+                model.Account = transaction.Account;
+                model.Description = transaction.Description;
+                model.CurrencyCode = transaction.CurrencyCode;
+                model.Amount = transaction.Amount;
+            }
+
+            return View("~/Views/Transaction/TransactionDetail.cshtml", model);
+        }
+
+        public ActionResult TransactionDetailUpdate(TransactionDetailViewModel detail, string delete, string account)
+        {
+
+            if (!string.IsNullOrEmpty(delete))
+            {
+                if (ModelState.IsValid)
+                {
+                    InitializeService.Settings.Services.Business.TransactionService.TransactionDelete(account);
+                    return RedirectToAction("TransactionLog");
+                }
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    InitializeService.Settings.Services.Business.TransactionService.UpdateTransaction(new Entities.Transact
+                    {
+                        Account = detail.Account,
+                        Description = detail.Description,
+                        CurrencyCode = detail.CurrencyCode,
+                        Amount = detail.Amount
+                    });
+                    return RedirectToAction("TransactionLog");
+                }
+            }          
+
+            return RedirectToAction("TransactionLog");
         }
 
         private bool GrantFullAccess(string path)

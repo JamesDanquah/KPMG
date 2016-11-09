@@ -14,6 +14,10 @@ namespace TestProject.Business
     public interface ITransactionService
     {
         void CsvUpload(string csv_File);
+        List<Transact> TransactionGetAll();
+        Transact TransactionGetById(string id);
+        void UpdateTransaction(Transact transaction);
+        void TransactionDelete(string id);
     }
     public class TransactionService : ITransactionService
     {
@@ -52,10 +56,10 @@ namespace TestProject.Business
                                     dataTable.Rows[dataTable.Rows.Count - 1][i] = cell;
                                     break;
                                 case 2:
-                                    dataTable.Rows[dataTable.Rows.Count - 1][i] = IsCurrencyValid(Regex.Replace(cell,"\\\"","").Trim()) ? cell : null; 
+                                    dataTable.Rows[dataTable.Rows.Count - 1][i] = IsCurrencyValid(Regex.Replace(cell,"\\\"","").Trim()) ? cell : null; //remove characters before checking if its currency
                                     break;
                                 case 3:
-                                    dataTable.Rows[dataTable.Rows.Count - 1][i] = IsNumber(cell.Replace("\\", "").Trim()) ? cell : "0"; 
+                                    dataTable.Rows[dataTable.Rows.Count - 1][i] = IsNumber(cell.Replace("\\", "").Trim()) ? cell : "0"; //remove characters before checking if its a number
                                     break;
                             }
                             i++;
@@ -72,12 +76,70 @@ namespace TestProject.Business
 
         }
 
+        public List<Transact> TransactionGetAll()
+        {
+            var transactions = new List<Transact>();
+            try
+            {
+                transactions = settings.Services.Data.TransactionRepository.TransactionGetAll();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return transactions;
+        }
+
+        public Transact TransactionGetById(string id)
+        {
+            var transaction = new Transact();
+            try
+            {
+                transaction = settings.Services.Data.TransactionRepository.TransactionGetById(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return transaction;
+        }
+
+        public void UpdateTransaction(Transact transaction)
+        {
+            try
+            {
+                settings.Services.Data.TransactionRepository.UpdateTransactions(transaction);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void TransactionDelete(string id)
+        {
+            try
+            {
+                settings.Services.Data.TransactionRepository.TransactionDelete(id);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+
         private bool IsCurrencyValid(string currencyCode)
         {
+            //get all the ISO 417 currency codes
             IEnumerable<string> currencySymbols = CultureInfo.GetCultures(CultureTypes.SpecificCultures) 
                 .Select(x => (new RegionInfo(x.LCID)).ISOCurrencySymbol.ToLower())
                 .Distinct()
                 .OrderBy(x => x.ToLower());
+            //check if the currency is in list
             if (currencySymbols.Contains(currencyCode.ToLower()))
                 return true;
             else
@@ -85,6 +147,7 @@ namespace TestProject.Business
         }
         private bool IsNumber(string num)
         {
+            //check if the string is a number
             decimal n;
             bool isNumeric = decimal.TryParse(num, out n);
 

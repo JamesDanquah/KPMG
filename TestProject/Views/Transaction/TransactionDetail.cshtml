@@ -1,0 +1,47 @@
+﻿@model TestProject.Models.Transaction.TransactionDetailViewModel
+
+@{
+    ViewBag.Title = "TransactionDetail";
+}
+
+<h2>TransactionDetail</h2>
+@using (Html.BeginForm("TransactionDetailUpdate", "Transaction", new { }, FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="row">
+        <fieldset>
+            <div class="form-group col-xs-12">
+                <label class="col-sm-2 control-label">Id</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(x => x.Account, new { @class = "form-control", data_original_title = "Account", data_toggle = "tooltip", data_placement = "bottom", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group col-xs-12">
+                <label class="col-sm-2 control-label">Meta Title</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(x => x.Description, new { @class = "form-control", data_original_title = "Description", data_toggle = "tooltip", data_placement = "bottom" })
+                </div>
+            </div>
+            <div class="form-group col-xs-12">
+                <label class="col-sm-2 control-label">Meta Description</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(x => x.CurrencyCode, new { @class = "form-control", data_original_title = "CurrencyCode", data_toggle = "tooltip", data_placement = "bottom" })
+                </div>
+            </div>
+            <div class="form-group col-xs-12">
+                <label class="col-sm-2 control-label">Url</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(x => x.Amount, new { @class = "form-control", data_original_title = "Amount", data_toggle = "tooltip", data_placement = "bottom" })
+                </div>
+            </div>
+            <div class="col-sm-8 col-sm-offset-2">
+                <div class="">
+                    @Html.ValidationSummary()
+                </div>
+                <a href="/transaction/transactionlog/" class="btn btn-default">Cancel</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" name="delete" class="btn btn-danger" value="delete">Delete</button>
+            </div>
+        </fieldset>
+    </div>
+}
+

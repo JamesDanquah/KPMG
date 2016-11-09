@@ -1,0 +1,38 @@
+﻿@model TestProject.Models.Transaction.TransactionViewModel
+
+@{
+    ViewBag.Title = "TransactionLog";
+}
+
+<h2>TransactionLog</h2>
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table table-striped table-bordered table-hover table-heading no-border-bottom">
+            <thead>
+                <tr>
+                    <th>Account</th>
+                    <th>Description</th>
+                    <th>CurrencyCode</th>
+                    <th>Amount</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.Transactions)
+                {
+                    <tr>
+                        <td>@row.Account</td>
+                        <td>@row.Description</td>
+                        <td>@row.CurrencyCode</td>
+                        <td>@row.Amount</td>
+                        <td>
+                            <a href="/transaction/transactiondetail?id=@row.Account" class="btn btn-primary btn-padding">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a href="/transaction/index" class="btn btn-default btn-padding">Back to Upload</a>
+    </div>
+</div>
+
